@@ -13,12 +13,11 @@ export async function SubscribeToAccount() {
       accountPublicKey,
       (accountInfo, context) => {
         accountUpdateEmitter.emit("update", accountInfo);
-
-        console.log(`context: `, context);
       },
       "confirmed"
     );
-    console.log(`[Subscription ID]: `, subscriptionId);
+    console.log(`Connected to: `, RPC_URL);
+    console.log(`Subscribing to: `, TOKEN_ACCOUNT_ADDRESS);
   } catch (error) {
     console.error(error, "[SubscribeToAccount]");
   }

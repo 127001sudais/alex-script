@@ -10,7 +10,6 @@ export function parseGetParsedTransactions(transactions) {
     switch (transaction.version) {
       case 0:
         if (!transaction.meta.innerInstructions) return;
-
         transaction.meta.innerInstructions.forEach((innerInstruction) => {
           innerInstruction.instructions.forEach((instruction) => {
             if (!instruction.parsed) return;
@@ -27,6 +26,7 @@ export function parseGetParsedTransactions(transactions) {
                 sender: parsedInfo.info.source,
                 receiver: parsedInfo.info.destination,
                 amount: parsedInfo.info.tokenAmount.amount / Math.pow(10, 9),
+                transactionSignature: transaction.transaction.signatures[0],
               });
               console.log(`[Parsing response fromt the server ⌛⏳]`);
               // console.log(`Mint address: `, parsedInfo.info.mint);
@@ -46,6 +46,18 @@ export function parseGetParsedTransactions(transactions) {
           transaction.version
         );
 
+        const parsedLegacyInfo =
+          transaction.transaction.message.instructions[0].parsed.info;
+        results.push({
+          mintAddress: parsedLegacyInfo.mint,
+          sender: parsedLegacyInfo.source,
+          receiver: parsedLegacyInfo.destination,
+          amount: parsedLegacyInfo.tokenAmount.amount / Math.pow(10, 9),
+          transactionSignature: transaction.transaction.signatures[0],
+        });
+        // console.log(parsedLegacyInfo.mint);
+        // console.log(parsedLegacyInfo);
+
         break;
       default:
         console.log("Unknown transaction version: ", transaction.version);
@@ -53,3 +65,26 @@ export function parseGetParsedTransactions(transactions) {
   });
   return results;
 }
+
+/**[
+  {
+    blockTime: 1710600380,
+    meta: {
+      computeUnitsConsumed: 6200,
+      err: null,
+      fee: 5000,
+      innerInstructions: [],
+      logMessages: [Array],
+      postBalances: [Array],
+      postTokenBalances: [Array],
+      preBalances: [Array],
+      preTokenBalances: [Array],
+      rewards: [],
+      status: [Object],
+      loadedAddresses: undefined
+    },
+    slot: 1914,
+    transaction: { message: [Object], signatures: [Array] },
+    version: 'legacy'
+  }
+] */
