@@ -1,5 +1,5 @@
 /** SETUP FOR LOCALHOST(solana-test-validator)*/
-
+// export const RPC_URL = "https://api.mainnet-beta.solana.com";
 export const RPC_URL = "http://127.0.0.1:8899";
 
 // export const RPC_URL = "https://api.devnet.solana.com";
@@ -7,6 +7,7 @@ export const RPC_URL = "http://127.0.0.1:8899";
 export const WebSocket_URL = "ws://localhost:8900/";
 
 export const MINT_ADDRESS = "48TbUmJ8hKz6GDhDtWquh1tF4htUCKfjsVsMYh6AiRxE";
+
 export const TOKEN_ACCOUNT_ADDRESS =
   "DKajrWg4iJzWvDzzyJFMbme9HRD7DbHqzq8Qfupf1rbB";
 

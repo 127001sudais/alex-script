@@ -38,4 +38,4 @@ export async function freezeNonWhiteListedAccount(
   }
 }
 
-freezeNonWhiteListedAccount("3HkSLidfgeLyM1izEZMvB4eKHi94U4HWbBdfvY48Vpq3");
+// freezeNonWhiteListedAccount("3HkSLidfgeLyM1izEZMvB4eKHi94U4HWbBdfvY48Vpq3");

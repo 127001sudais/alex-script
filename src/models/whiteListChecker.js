@@ -2,6 +2,9 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+//
+import { freezeNonWhiteListedAccount } from "../utils/freezeAccount.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -13,7 +16,7 @@ async function readWhiteListedAddresses(filePath) {
           `Error: Failed to read white-listed addresses from ${filePath}. Ensure the file exists and has the correct permissions. Error details: ${err.message}`
         );
       } else {
-        // console.log(data);
+        console.log(data);
         resolve(data.split("\n").filter((line) => line.trim() !== ""));
       }
     });
@@ -27,13 +30,16 @@ export async function checkAddresAgainstWhiteListedAddress(
 ) {
   try {
     const whiteListedAddress = await readWhiteListedAddresses(
-      path.join(__dirname, "whitelistAddress.txt")
+      path.join(__dirname, "list.txt")
     );
 
     if (whiteListedAddress.includes(address)) {
       console.log(`Present in the whitelist`);
     } else {
-      console.log(`Warning: ${address} not present in the whitelist`);
+      console.log(
+        `Warning: ${address} not present in the whitelist. Initiating freeze action`
+      );
+      await freezeNonWhiteListedAccount(address, amount, transactionSignature);
     }
   } catch (error) {
     console.error(
@@ -41,3 +47,5 @@ export async function checkAddresAgainstWhiteListedAddress(
     );
   }
 }
+
+// readWhiteListedAddresses(path.join(__dirname, "list.txt"));

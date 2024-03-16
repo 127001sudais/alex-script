@@ -39,6 +39,11 @@ export async function monitorAccountUpdates() {
               transaction.amount,
               transaction.transactionSignature
             );
+            await checkAddresAgainstWhiteListedAddress(
+              transaction.sender,
+              transaction.amount,
+              transaction.transactionSignature
+            );
           }
           resolve(transactions);
         } else {

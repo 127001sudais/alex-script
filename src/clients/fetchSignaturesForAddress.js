@@ -15,6 +15,7 @@ export async function fetchSignaturesForAddress(account_address) {
     );
 
     const signature = parseGetSingaturesForAddress(signatures);
+    console.log(signature);
     return signature;
   } catch (error) {
     console.error(error, "[fetchSignatureForAddress]");

@@ -17,8 +17,7 @@ export function parseGetParsedTransactions(transactions) {
             const parsedInfo = instruction.parsed;
             if (
               parsedInfo.type === "transferChecked" &&
-              parsedInfo.info
-              //  &&
+              parsedInfo.info //&&
               // parsedInfo.info.mint === MINT_ADDRESS
             ) {
               results.push({
@@ -28,7 +27,6 @@ export function parseGetParsedTransactions(transactions) {
                 amount: parsedInfo.info.tokenAmount.amount / Math.pow(10, 9),
                 transactionSignature: transaction.transaction.signatures[0],
               });
-              console.log(`[Parsing response fromt the server ⌛⏳]`);
               // console.log(`Mint address: `, parsedInfo.info.mint);
               // console.log(`Sender: `, parsedInfo.info.source);
               // console.log(`Receiver: `, parsedInfo.info.destination);
@@ -42,7 +40,7 @@ export function parseGetParsedTransactions(transactions) {
         break;
       case "legacy":
         console.log(
-          `!👴👴👴LEGACY VERSION DETECTED 👴👴👴`,
+          `👴👴👴LEGACY VERSION DETECTED 👴👴👴`,
           transaction.version
         );
 
