@@ -41,7 +41,3 @@ export async function checkAddresAgainstWhiteListedAddress(
     );
   }
 }
-
-await checkAddresAgainstWhiteListedAddress(
-  "2kNBchuVw3TFFsbDKYNKsqYkh1RateczhKpn3z4gXFPF"
-);

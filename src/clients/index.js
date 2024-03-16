@@ -1,33 +1,54 @@
-import { accountUpdateEmitter, SubscribeToAccount } from "./webSocketClient.js";
-import { fetchSignaturesForAddress } from "./fetchSignaturesForAddress.js";
-import { fetchParsedTransactions } from "./fetchParsedTransactions.js";
 import { PublicKey } from "@solana/web3.js";
+
+import { fetchParsedTransactions } from "./fetchParsedTransactions.js";
+import { fetchSignaturesForAddress } from "./fetchSignaturesForAddress.js";
+import { SubscribeToAccount, accountUpdateEmitter } from "./webSocketClient.js";
+
+//
+import { checkAddresAgainstWhiteListedAddress } from "../models/whiteListChecker.js";
+
+// constants
 import { TOKEN_ACCOUNT_ADDRESS } from "../constants/constatnt.js";
 
-SubscribeToAccount();
+export async function monitorAccountUpdates() {
+  SubscribeToAccount();
 
-accountUpdateEmitter.on("update", async (accountInfo) => {
-  console.log(`Receiver account update: `, accountInfo);
+  return new Promise((resolve, reject) => {
+    accountUpdateEmitter.on("update", async (accountInfo) => {
+      console.log("Receive Account update:", accountInfo);
+      const accountPublicKey = new PublicKey(TOKEN_ACCOUNT_ADDRESS);
 
-  const accountPublicKey = new PublicKey(TOKEN_ACCOUNT_ADDRESS);
+      try {
+        const signatures = await fetchSignaturesForAddress(accountPublicKey);
 
-  try {
-    const signatures = await fetchSignaturesForAddress(accountPublicKey);
+        if (signatures && signatures.length > 0) {
+          const transactions = await fetchParsedTransactions(signatures);
+          for (const transaction of transactions) {
+            console.log("*".repeat(45));
+            console.log(`sender: `, transaction.sender);
+            console.log(`receiver: `, transaction.receiver);
+            console.log(`amount: `, transaction.amount);
+            console.log(`mintid: `, transaction.mintAddress);
+            console.log(
+              `TransactionSignature:`,
+              transaction.transactionSignature
+            );
 
-    if (signatures && signatures.length > 0) {
-      console.log(`Fetching transactions`);
-      const transactions = await fetchParsedTransactions(signatures);
-      transactions.forEach((result) => {
-        console.log("*".repeat(45));
-        console.log(`sender `, result.sender);
-        console.log(`receiver `, result.receiver);
-        console.log(`amount `, result.amount);
-        console.log(`mintid`, result.mintAddress);
-      });
-    } else {
-      console.log("No signatures found for the the give address.");
-    }
-  } catch (error) {
-    console.error(``, error);
-  }
-});
+            await checkAddresAgainstWhiteListedAddress(
+              transaction.receiver,
+              transaction.amount,
+              transaction.transactionSignature
+            );
+          }
+          resolve(transactions);
+        } else {
+          console.log("first");
+          resolve(null);
+        }
+      } catch (error) {
+        console.error(error);
+        reject(error);
+      }
+    });
+  });
+}
