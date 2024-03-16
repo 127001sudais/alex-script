@@ -45,6 +45,7 @@ export function parseGetParsedTransactions(transactions) {
           `!👴👴👴LEGACY VERSION DETECTED 👴👴👴`,
           transaction.version
         );
+
         break;
       default:
         console.log("Unknown transaction version: ", transaction.version);
