@@ -19,7 +19,7 @@ export async function fetchParsedTransactions(transactionSignature) {
 
     if (parsedTransaction) {
       let filtered = parseGetParsedTransactions(parsedTransaction);
-      console.log(filtered);
+      // console.log(filtered);
 
       return filtered;
     } else {
