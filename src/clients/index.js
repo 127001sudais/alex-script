@@ -17,7 +17,13 @@ accountUpdateEmitter.on("update", async (accountInfo) => {
     if (signatures && signatures.length > 0) {
       console.log(`Fetching transactions`);
       const transactions = await fetchParsedTransactions(signatures);
-      console.log(`live transaction: `, transactions);
+      transactions.forEach((result) => {
+        console.log("*".repeat(45));
+        console.log(`sender `, result.sender);
+        console.log(`receiver `, result.receiver);
+        console.log(`amount `, result.amount);
+        console.log(`mintid`, result.mintAddress);
+      });
     } else {
       console.log("No signatures found for the the give address.");
     }
