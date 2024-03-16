@@ -1,17 +1,18 @@
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
+import { freezeAccount } from "@solana/spl-token";
 import {
   FREEZE_AUTHORITY_SECRET_KEY,
   MINT_ADDRESS,
   RPC_URL,
 } from "../constants/constatnt.js";
-import { freezeAccount } from "@solana/spl-token";
+import { storeFrozenAccount } from "../models/excelManager.js";
 
 const connection = new Connection(RPC_URL, "confirmed");
 const mintPublicKey = new PublicKey(MINT_ADDRESS);
 
 export async function freezeNonWhiteListedAccount(
   accountPublicKey,
-  balance,
+  amount,
   transactionSignature
 ) {
   try {
@@ -30,6 +31,7 @@ export async function freezeNonWhiteListedAccount(
     console.log(
       ` ✅ 🥶 ${accountPublicKey.toString()} has been frozen.\n Transaction signature: ${signature}`
     );
+    storeFrozenAccount(accountPublicKey, amount, transactionSignature);
   } catch (error) {
     console.error(
       `❌ Error during freezing account ${accountPublicKey.toString()}`,
