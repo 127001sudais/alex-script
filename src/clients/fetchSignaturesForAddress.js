@@ -1,5 +1,6 @@
-import { Connection, PublicKey } from "@solana/web3.js";
-import { RPC_URL, TOKEN_ACCOUNT_ADDRESS } from "../constants/constatnt.js";
+import chalk from "chalk";
+import { Connection } from "@solana/web3.js";
+import { RPC_URL } from "../constants/constatnt.js";
 import { parseGetSingaturesForAddress } from "../utils/parseGetSignaturesForAddress.js";
 
 let connection = new Connection(RPC_URL, "confirmed");
@@ -15,12 +16,20 @@ export async function fetchSignaturesForAddress(account_address) {
     );
 
     const signature = parseGetSingaturesForAddress(signatures);
-    console.log(signature);
+    console.log("[SIGNATURE]", signature);
+
     return signature;
   } catch (error) {
-    console.error(error, "[fetchSignatureForAddress]");
+    let errorMessage = `[ERROR] An errror occured while fetching signatures for address ${chalk.cyan(
+      account_address
+    )}.`;
+
+    if (error instanceof Error) {
+      errorMessage += `Error: ${error.message}`;
+    } else {
+      errorMessage += `Unexpected error: ${JSON.stringify(error)}`;
+    }
+
+    console.log(chalk.red(errorMessage));
   }
 }
-
-// const publicKey = new PublicKey(TOKEN_ACCOUNT_ADDRESS);
-// fetchSignaturesForAddress(publicKey);

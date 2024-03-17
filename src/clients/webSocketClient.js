@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { EventEmitter } from "events";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { RPC_URL, TOKEN_ACCOUNT_ADDRESS } from "../constants/constatnt.js";
@@ -12,13 +13,16 @@ export async function SubscribeToAccount() {
     const subscriptionId = connection.onAccountChange(
       accountPublicKey,
       (accountInfo, context) => {
-        accountUpdateEmitter.emit("update", accountInfo);
+        accountUpdateEmitter.emit("update");
+        console.log(`context`, context);
       },
       "confirmed"
     );
-    console.log(`Connected to: `, RPC_URL);
-    console.log(`Subscribing to: `, TOKEN_ACCOUNT_ADDRESS);
+    console.log(chalk.green(`[Success] Connected to: `, RPC_URL));
+    console.log(
+      chalk.green(`[Success] Subscribed to: `, TOKEN_ACCOUNT_ADDRESS)
+    );
   } catch (error) {
-    console.error(error, "[SubscribeToAccount]");
+    console.error(chalk.red("[ERROR] SubscribeToAccount"), error);
   }
 }

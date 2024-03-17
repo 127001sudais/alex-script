@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 import { freezeAccount } from "@solana/spl-token";
 import {
@@ -29,15 +30,26 @@ export async function freezeNonWhiteListedAccount(
     );
 
     console.log(
-      ` ✅ 🥶 ${accountPublicKey.toString()} has been frozen.\n Transaction signature: ${signature}`
+      chalk.green(`✅ [SUCCESS]`) +
+        chalk.white(
+          ` Wallet ${accountPublicKey.toString()} has been frozen successfully.`
+        ) +
+        `\n` +
+        chalk.bold(`Transaction Signature:`) +
+        chalk.yellow(` ${signature}`)
     );
     storeFrozenAccount(accountPublicKey, amount, transactionSignature);
   } catch (error) {
-    console.error(
-      `❌ Error during freezing account ${accountPublicKey.toString()}`,
-      error
-    );
+    let errorMessage = `[ERROR] An error occurred while trying to freeze account ${chalk.cyan(
+      accountPublicKey.toString()
+    )}.`;
+
+    if (error instanceof Error) {
+      errorMessage += ` Error: ${error.message}`;
+    } else {
+      errorMessage += ` Unexpected error: ${JSON.stringify(error)}`;
+    }
+
+    console.error(chalk.red(errorMessage));
   }
 }
-
-// freezeNonWhiteListedAccount("3HkSLidfgeLyM1izEZMvB4eKHi94U4HWbBdfvY48Vpq3");
