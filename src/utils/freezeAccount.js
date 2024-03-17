@@ -11,7 +11,7 @@ import { storeFrozenAccount } from "../models/excelManager.js";
 const connection = new Connection(RPC_URL, "confirmed");
 const mintPublicKey = new PublicKey(MINT_ADDRESS);
 
-/** LEGACY RAW
+/** LEGACY RAW 
 export async function freezeNonWhiteListedAccount(accountPublicKey, amount) {
   try {
     const freezeAuthorityKeyPair = Keypair.fromSecretKey(
@@ -49,7 +49,7 @@ export async function freezeNonWhiteListedAccount(accountPublicKey, amount) {
     console.error(chalk.red(errorMessage));
   }
 }
- */
+*/
 
 const RETRY_LIMIT = 3;
 const RETRY_DELAY = 2000;
