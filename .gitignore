@@ -1,2 +1,4 @@
 node_modules/
 secrets.md
+__tests__/
+test-simuation/
