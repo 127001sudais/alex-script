@@ -1,14 +1,14 @@
 import chalk from "chalk";
-import { Connection } from "@solana/web3.js";
-import { RPC_URL } from "../constants/constatnt.js";
+import { Connection, PublicKey } from "@solana/web3.js";
+import { RPC_URL, TOKEN_ACCOUNT_ADDRESS } from "../constants/constatnt.js";
 import { parseGetSingaturesForAddress } from "../utils/parseGetSignaturesForAddress.js";
 
 let connection = new Connection(RPC_URL, "confirmed");
 
-export async function fetchSignaturesForAddress(account_address) {
+export async function fetchSignaturesForAddress(account_address, limit) {
   try {
     const options = {
-      limit: 1,
+      limit: limit,
     };
     const signatures = await connection.getSignaturesForAddress(
       account_address,

@@ -20,6 +20,10 @@ export async function fetchParsedTransactions(transactionSignature) {
 
     if (parsedTransaction) {
       let filtered = parseGetParsedTransactions(parsedTransaction);
+      // console.log(`Sender: `, filtered.sender);
+      // console.log(`Reciever: `, filtered.receiver);
+      // console.log(`mintID: `, filtered[0].mintAddress);
+
       return filtered;
     } else {
       console.log(

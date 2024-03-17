@@ -49,9 +49,3 @@ export async function checkAddresAgainstWhiteListedAddress(
     );
   }
 }
-
-// checkAddresAgainstWhiteListedAddress(
-//   "ACzFALBrQjSkcqxWdGRx6x4eGZbf2RbwMtC7nS5ckBVP",
-//   90,
-//   "asefuaihwefcbebn"
-// );

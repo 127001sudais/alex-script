@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { MINT_ADDRESS } from "../constants/constatnt.js";
+import { MINT_ADDRESS, DECIMAL } from "../constants/constatnt.js";
 
 /** LEGACY code
 export function parseGetParsedTransactions(transactions) {
@@ -91,7 +91,7 @@ function extractTransactions(transaction) {
           mintAddress: parsedInfo.info.mint,
           sender: parsedInfo.info.source,
           receiver: parsedInfo.info.destination,
-          amount: parsedInfo.info.tokenAmount.amount / Math.pow(10, 9),
+          amount: parsedInfo.info.tokenAmount.amount / Math.pow(10, DECIMAL),
           transactionSignature: transaction.transaction.signatures[0],
         });
       }
