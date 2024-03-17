@@ -2,8 +2,6 @@ import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-
-//
 import { freezeNonWhiteListedAccount } from "../utils/freezeAccount.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -30,7 +28,7 @@ export async function checkAddresAgainstWhiteListedAddress(
 ) {
   try {
     const whiteListedAddress = await readWhiteListedAddresses(
-      path.join(__dirname, "list.txt")
+      path.join(__dirname, "whiteListAddress.txt")
     );
 
     if (whiteListedAddress.includes(address)) {
