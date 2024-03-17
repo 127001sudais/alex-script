@@ -17,15 +17,26 @@ export async function fetchSignaturesForAddress(account_address, limit) {
       "confirmed"
     );
 
+    if (!signatures || signatures.length === 0) {
+      console.log(
+        chalk.yellow(`No signatures found for address: ${account_address}`)
+      );
+      return [];
+    }
+
     const signature = parseGetSingaturesForAddress(signatures);
 
     return signature;
   } catch (error) {
     console.error(
       chalk.red(
-        `Error fetching transaction signatures for address ${account_address}: ${error.message}`
-      )
+        `Error occurred while fetching transaction signatures for address ${account_address}.`
+      ),
+      chalk.yellow(`Limit set to: ${limit}.`),
+      chalk.magenta(`Error message: ${error.message}`)
     );
+
+    // debugging
     throw new Error(
       `Failed to fetch signatures for address ${account_address}: ${error.message}`
     );
