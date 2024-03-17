@@ -20,16 +20,18 @@ export async function fetchParsedTransactions(transactionSignature) {
 
     if (parsedTransaction) {
       let filtered = parseGetParsedTransactions(parsedTransaction);
-
       return filtered;
     } else {
       console.log(
-        chalk.blue("Info: Transaction not found or failed to parse.")
+        chalk.blue("Info: No transaction found with the given signature.")
       );
       return [];
     }
   } catch (error) {
-    console.log(chalk.bgRed("[ERROR] fetchParsedTransactionDetails"), error);
-    throw error;
+    console.error(
+      chalk.bgRed("Error fetching parsed transaction details:"),
+      error.message
+    );
+    throw new Error("Failed to fetch parsed transaction details.");
   }
 }

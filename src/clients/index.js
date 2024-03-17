@@ -1,63 +1,56 @@
 import chalk from "chalk";
-
 import { PublicKey } from "@solana/web3.js";
-
 import { fetchParsedTransactions } from "./fetchParsedTransactions.js";
 import { fetchSignaturesForAddress } from "./fetchSignaturesForAddress.js";
 import { SubscribeToAccount, accountUpdateEmitter } from "./webSocketClient.js";
-
-//
 import { checkAddresAgainstWhiteListedAddress } from "../models/whiteListChecker.js";
-
-// constants
 import { TOKEN_ACCOUNT_ADDRESS } from "../constants/constatnt.js";
 
 export async function monitorAccountUpdates() {
-  SubscribeToAccount();
+  try {
+    await SubscribeToAccount();
+  } catch (error) {
+    console.error(
+      chalk.red(
+        "Failed to subscribe to account updates. Monitoring will not proceed."
+      )
+    );
+    return;
+  }
 
-  return new Promise((resolve, reject) => {
-    accountUpdateEmitter.on("update", async (accountInfo) => {
-      console.log(chalk.magentaBright("=".repeat(100)));
+  accountUpdateEmitter.on("update", async () => {
+    console.log(chalk.magentaBright("=".repeat(100)));
+    console.log(chalk.blue(`[INFO] Account update detected.`));
 
-      console.log(chalk.blue(`[INFO] Account update Detected`));
-      const accountPublicKey = new PublicKey(TOKEN_ACCOUNT_ADDRESS);
-
-      try {
-        const signatures = await fetchSignaturesForAddress(accountPublicKey);
-
-        if (signatures && signatures.length > 0) {
-          const transactions = await fetchParsedTransactions(signatures);
-          for (const transaction of transactions) {
-            // console.log("*".repeat(45));
-            // console.log(`sender: `, transaction.sender);
-            // console.log(`receiver: `, transaction.receiver);
-            // console.log(`amount: `, transaction.amount);
-            // console.log(`mintid: `, transaction.mintAddress);
-            // console.log(
-            //   `TransactionSignature:`,
-            //   transaction.transactionSignature
-            // );
-
-            await checkAddresAgainstWhiteListedAddress(
-              transaction.receiver,
-              transaction.amount,
-              transaction.transactionSignature
-            );
-            await checkAddresAgainstWhiteListedAddress(
-              transaction.sender,
-              transaction.amount,
-              transaction.transactionSignature
-            );
-          }
-          resolve(transactions);
-        } else {
-          console.log("first");
-          resolve(null);
+    const accountPublicKey = new PublicKey(TOKEN_ACCOUNT_ADDRESS);
+    try {
+      const signatures = await fetchSignaturesForAddress(accountPublicKey);
+      if (signatures && signatures.length > 0) {
+        const transactions = await fetchParsedTransactions(signatures);
+        for (const transaction of transactions) {
+          await checkAddresAgainstWhiteListedAddress(
+            transaction.receiver,
+            transaction.amount,
+            transaction.transactionSignature
+          );
+          await checkAddresAgainstWhiteListedAddress(
+            transaction.sender,
+            transaction.amount,
+            transaction.transactionSignature
+          );
         }
-      } catch (error) {
-        console.error(error);
-        reject(error);
+        console.log(
+          chalk.green(`[Success] Transactions processed successfully.`)
+        );
+      } else {
+        console.log(
+          chalk.yellow(`[Warning] No signatures found for the account.`)
+        );
       }
-    });
+    } catch (error) {
+      console.error(
+        chalk.red(`Error during account update processing: ${error.message}`)
+      );
+    }
   });
 }

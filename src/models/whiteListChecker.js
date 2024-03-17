@@ -9,7 +9,7 @@ import { freezeNonWhiteListedAccount } from "../utils/freezeAccount.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-async function readWhiteListedAddresses(filePath) {
+export async function readWhiteListedAddresses(filePath) {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, { encoding: "utf-8" }, (err, data) => {
       if (err) {
@@ -36,8 +36,12 @@ export async function checkAddresAgainstWhiteListedAddress(
     if (whiteListedAddress.includes(address)) {
       console.log(chalk.blue(`Present in the whitelist`));
     } else {
-      await freezeNonWhiteListedAccount(address, amount, transactionSignature);
-      console.log(`Address ${chalk.cyan(address)} is not whitelisted.`);
+      await freezeNonWhiteListedAccount(address, amount);
+      console.log(
+        `${chalk.bgMagenta("[DEBUG]")} Address ${chalk.cyan(
+          address
+        )} is not whitelisted.`
+      );
     }
   } catch (error) {
     console.error(
@@ -46,4 +50,8 @@ export async function checkAddresAgainstWhiteListedAddress(
   }
 }
 
-// checkAddresAgainstWhiteListedAddress("hello", path.join(__dirname, "list.txt"));`
+// checkAddresAgainstWhiteListedAddress(
+//   "ACzFALBrQjSkcqxWdGRx6x4eGZbf2RbwMtC7nS5ckBVP",
+//   90,
+//   "asefuaihwefcbebn"
+// );

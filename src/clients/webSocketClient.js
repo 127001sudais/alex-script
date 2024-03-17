@@ -14,7 +14,11 @@ export async function SubscribeToAccount() {
       accountPublicKey,
       (accountInfo, context) => {
         accountUpdateEmitter.emit("update");
-        console.log(`context`, context);
+        console.log(
+          chalk.green(
+            `Account Update Detected. Context: ${JSON.stringify(context)}`
+          )
+        );
       },
       "confirmed"
     );
@@ -23,6 +27,6 @@ export async function SubscribeToAccount() {
       chalk.green(`[Success] Subscribed to: `, TOKEN_ACCOUNT_ADDRESS)
     );
   } catch (error) {
-    console.error(chalk.red("[ERROR] SubscribeToAccount"), error);
+    console.error(chalk.red("[ERROR] SubscribeToAccount"), error.message);
   }
 }

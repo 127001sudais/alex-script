@@ -49,10 +49,9 @@ export async function storeFrozenAccount(
 
   XLSX.writeFile(workbook, filePath);
   console.info(
-    chalk.blue(
-      `Info: Account ${address} with amount ${chalk.bold(
-        amount
-      )} has been successfully stored.`
-    ) + `\nTransaction Signature: ${chalk.bold(transactionSignature)}`
+    `${chalk.blue(`Info`)}: Account ${chalk.cyan(
+      address
+    )} with amount ${chalk.green(amount)} has been successfully stored.` +
+      `\nTransaction Signature: ${chalk.cyanBright.bold(transactionSignature)}`
   );
 }

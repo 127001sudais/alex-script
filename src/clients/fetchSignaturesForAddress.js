@@ -12,24 +12,20 @@ export async function fetchSignaturesForAddress(account_address) {
     };
     const signatures = await connection.getSignaturesForAddress(
       account_address,
-      options
+      options,
+      "confirmed"
     );
 
     const signature = parseGetSingaturesForAddress(signatures);
+
     console.log("[SIGNATURE]", signature);
 
     return signature;
   } catch (error) {
-    let errorMessage = `[ERROR] An errror occured while fetching signatures for address ${chalk.cyan(
-      account_address
-    )}.`;
-
-    if (error instanceof Error) {
-      errorMessage += `Error: ${error.message}`;
-    } else {
-      errorMessage += `Unexpected error: ${JSON.stringify(error)}`;
-    }
-
-    console.log(chalk.red(errorMessage));
+    console.error(
+      chalk.red(
+        `Error fetching transaction signatures for address ${account_address}: ${error.message}`
+      )
+    );
   }
 }

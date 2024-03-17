@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { MINT_ADDRESS } from "../constants/constatnt.js";
 
-/**
+/** LEGACY code
 export function parseGetParsedTransactions(transactions) {
   let results = [];
 
@@ -81,10 +81,12 @@ function extractTransactions(transaction) {
       const { parsed: parsedInfo } = instruction;
       if (
         parsedInfo.type === "transferChecked" &&
-        parsedInfo.info
-        // &&
-        // parsedInfo.info.mint === MINT_ADDRESS
+        parsedInfo.info &&
+        parsedInfo.info.mint === MINT_ADDRESS
       ) {
+        console.log(
+          chalk.bgGreen("passed transfer checked and mintID matched")
+        );
         results.push({
           mintAddress: parsedInfo.info.mint,
           sender: parsedInfo.info.source,
@@ -108,11 +110,14 @@ export function parseGetParsedTransactions(transactions) {
     switch (transaction.version) {
       case 0:
         results = [...results, ...extractTransactions(transaction)];
+        console.log(`results: `, results);
         break;
+
       case "legacy":
         console.log(chalk.blue("[INFO] LEGACY version detected"));
         results = [...results, ...extractTransactions(transaction)];
         break;
+
       default:
         console.log(
           chalk.bgBlue("[INFO] Unknown transaction version: "),
