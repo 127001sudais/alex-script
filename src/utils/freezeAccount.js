@@ -126,9 +126,9 @@ async function retryFreezeAccount(
       );
     } else {
       throw new Error(
-        `After ${RETRY_LIMIT} attempts, failed to freeze account ${accountPublicKey.toString()}: ${
-          error.message
-        }`
+        `After ${RETRY_LIMIT} attempts, failed to freeze account ${chalk.blue(
+          accountPublicKey.toString()
+        )}: ${error.message}`
       );
     }
   }

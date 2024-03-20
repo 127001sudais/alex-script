@@ -29,18 +29,21 @@ export function extractTransactions(transaction) {
 
       const { parsed: parsedInfo } = instruction;
       if (
-        parsedInfo.type === "transferChecked" &&
+        (parsedInfo.type === "transferChecked" ||
+          parsedInfo.type === "transfer") &&
         parsedInfo.info &&
-        parsedInfo.info.mint === MINT_ADDRESS
+        parsedInfo.info.source === TOKEN_ACCOUNT_ADDRESS
       ) {
         console.log(
           chalk.bgGreen("[Passed] TransferChecked and mintID matched.")
         );
         results.push({
-          mintAddress: parsedInfo.info.mint,
+          // mintAddress: parsedInfo.info.mint,
           sender: parsedInfo.info.source,
           receiver: parsedInfo.info.destination,
-          amount: parsedInfo.info.tokenAmount.amount / Math.pow(10, DECIMAL),
+          amount:
+            (parsedInfo.info.tokenAmount.amount || parsedInfo.info.amount) /
+            Math.pow(10, DECIMAL),
           transactionSignature: transaction.transaction.signatures,
         });
       } else {

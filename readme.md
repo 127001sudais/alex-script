@@ -17,7 +17,7 @@ To set up the script on your local/remote machine, follow these steps:
    If the script is hosted in a git repository, clone it to your local machine using the following command in your terminal:
 
    ```bash
-   git clone https://github.com/127001sudais/alex-script.git
+   git clone <contact needed>
    cd alex-script
    ```
 

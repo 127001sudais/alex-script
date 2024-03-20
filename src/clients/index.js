@@ -197,7 +197,6 @@ async function processUpdates() {
       chalk.red(`Error during account update processing: ${error.message}`)
     );
   }
-
   // Reset the counter and timer for the next batch of updates.
   resetProcessingState();
 }
