@@ -149,11 +149,11 @@ function startProcessingTimer() {
   processingTimer = setTimeout(async () => {
     console.log(
       chalk.yellow(
-        `[Timer] 10 seconds passed, processing ${updateCounter} updates.`
+        `[Timer] 5 seconds passed, processing ${updateCounter} updates.`
       )
     );
     await processUpdates();
-  }, 10000); // 10 seconds
+  }, 5000); // 5 seconds
 }
 
 /**

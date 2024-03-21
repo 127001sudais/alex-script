@@ -38,7 +38,7 @@ export async function checkAddresAgainstWhiteListedAddress(
         chalk.blue(`[Info] ${ownerAddress} Present in the whitelist`)
       );
     } else {
-      await freezeNonWhiteListedAccount(ownerAddress, amount);
+      await freezeNonWhiteListedAccount(address, amount);
       // console.log(
       //   `${chalk.bgMagenta("[DEBUG]")} Address ${chalk.cyan(
       //     ownerAddress

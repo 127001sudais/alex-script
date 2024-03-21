@@ -20,3 +20,9 @@
 
 - Mint Address = DU9as9fLQz23tXfnwa4YYLjdscaYCvnuqKubQAb91wCD
 - Token Account Address = CEeoDRFPQBH2RNZXWiWyKuGii4H55SJiX6T1aMcXUYgf
+
+# MAINNET TESTING
+
+- MINT ADDRESS = 53oz9TXrCso8aTtjYKhyZTJvdsLiccVgLhXHdND94E6k
+
+- Token Account Address = AaGvPRyX9LhdB7YXjdhyKFUo42FYTbNrPHuLyeLDRfHH

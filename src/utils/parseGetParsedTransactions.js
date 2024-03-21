@@ -1,14 +1,12 @@
 import chalk from "chalk";
-import { MINT_ADDRESS, DECIMAL } from "../constants/constatnt.js";
-
-// ⚠️⚠️[ WARNING ] write a custom parser to decode the response, this code does not work in devnet or localhost as of march 18 2024.
+import { DECIMAL, TOKEN_ACCOUNT_ADDRESS } from "../constants/constatnt.js";
 
 /** This function extracts and processes transactions based on specific criteria.
 It checks for transactions that match the "transferChecked" type and have a mint address matching the predefined MINT_ADDRESS.
 It then constructs a result object for each matching transaction, including details like mint address, sender, receiver, amount, and transaction signature.*/
 export function extractTransactions(transaction) {
   const results = [];
-
+  console.log(transaction.transaction.message.instructions[3].parsed);
   if (!transaction?.meta?.innerInstructions) {
     console.log(
       chalk.yellow(
@@ -28,30 +26,38 @@ export function extractTransactions(transaction) {
       }
 
       const { parsed: parsedInfo } = instruction;
-      if (
-        (parsedInfo.type === "transferChecked" ||
-          parsedInfo.type === "transfer") &&
-        parsedInfo.info &&
-        parsedInfo.info.source === TOKEN_ACCOUNT_ADDRESS
-      ) {
-        console.log(
-          chalk.bgGreen("[Passed] TransferChecked and mintID matched.")
-        );
-        results.push({
-          // mintAddress: parsedInfo.info.mint,
-          sender: parsedInfo.info.source,
-          receiver: parsedInfo.info.destination,
-          amount:
-            (parsedInfo.info.tokenAmount.amount || parsedInfo.info.amount) /
-            Math.pow(10, DECIMAL),
-          transactionSignature: transaction.transaction.signatures,
-        });
-      } else {
-        console.log(chalk.yellow("[Warning] Transaction type mismatch."));
+      switch (instruction.parsed.type) {
+        case "transfer":
+          if (
+            parsedInfo.info &&
+            instruction.parsed.info.source === TOKEN_ACCOUNT_ADDRESS
+          ) {
+            console.log(chalk.bgGreen("[Passed] Transaction matches."));
+            results.push({
+              sender: parsedInfo.info.source,
+              receiver: parsedInfo.info.destination,
+              amount: parsedInfo.info.amount / Math.pow(10, DECIMAL),
+              transactionSignature: transaction.transaction.signatures,
+            });
+          }
+          break;
+        case "transferChecked":
+          if (parsedInfo.info) {
+            console.log(chalk.bgGreen("[Passed] TransferChecked matches."));
+            results.push({
+              sender: parsedInfo.info.source,
+              receiver: parsedInfo.info.destination,
+              amount: parsedInfo.info.amount / Math.pow(10, DECIMAL),
+              transactionSignature: transaction.transaction.signatures,
+            });
+          }
+          break;
+        default:
+          console.log(chalk.blue("[Info] Extra Transactions"));
       }
     });
   });
-
+  console.log(`${chalk.bgMagenta(`[DEBUG]`)} Passed Transactions: `, results);
   return results;
 }
 
