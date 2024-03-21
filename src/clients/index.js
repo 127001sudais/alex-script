@@ -211,11 +211,11 @@ async function processTransaction(transaction) {
     transaction.amount,
     transaction.transactionSignature
   );
-  await checkAddresAgainstWhiteListedAddress(
-    transaction.sender,
-    transaction.amount,
-    transaction.transactionSignature
-  );
+  // await checkAddresAgainstWhiteListedAddress(
+  //   transaction.sender,
+  //   transaction.amount,
+  //   transaction.transactionSignature
+  // );
 }
 
 /**

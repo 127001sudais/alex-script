@@ -32,9 +32,9 @@ export const DECIMAL = 9;
 /** */
 export const RPC_URL = "https://api.mainnet-beta.solana.com";
 export const WebSocket_URL = "wss://api.mainnet-beta.solana.com/";
-export const MINT_ADDRESS = "8GXLMZSKSxPSmLUGpRN3UuFo3Y1ngB3Frg2yPhZosVde";
+export const MINT_ADDRESS = "53oz9TXrCso8aTtjYKhyZTJvdsLiccVgLhXHdND94E6k";
 export const TOKEN_ACCOUNT_ADDRESS =
-  "E3vkeTAdHcoXL6Fe8hDHLCMLNfWQumSK5Z5zVnwmDvtB";
+  "AaGvPRyX9LhdB7YXjdhyKFUo42FYTbNrPHuLyeLDRfHH";
 export const DECIMAL = 9;
 
 export const FREEZE_AUTHORITY_SECRET_KEY = new Uint8Array([

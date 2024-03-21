@@ -57,31 +57,47 @@ function processInstruction(instruction, transactionSignatures) {
 }
 
 export function extractTransactions(transaction) {
-  console.log(
-    `[extractTransactions] `,
-    transaction.transaction.message.instructions
-  );
   const results = [];
-  if (!transaction?.meta?.innerInstructions) {
+
+  // Handle instructions in meta.innerInstructions
+  if (transaction?.meta?.innerInstructions) {
+    transaction.meta.innerInstructions.forEach((innerInstruction) => {
+      innerInstruction.instructions.forEach((instruction) => {
+        const result = processInstruction(
+          instruction,
+          transaction.transaction.signatures
+        );
+        if (result) results.push(result);
+      });
+    });
+  } else {
     logTransactionStatus(
       `[Warning] Transaction ${transaction?.transaction?.signatures} has no innerInstructions.`,
       "warning"
     );
-    return results;
   }
 
-  transaction.meta.innerInstructions.forEach((innerInstruction) => {
-    innerInstruction.instructions.forEach((instruction) => {
+  // Handle instructions in transaction.message.instructions
+  if (transaction?.transaction?.message?.instructions) {
+    transaction.transaction.message.instructions.forEach((instruction) => {
       const result = processInstruction(
         instruction,
         transaction.transaction.signatures
       );
       if (result) results.push(result);
     });
-  });
+  } else {
+    logTransactionStatus(
+      `[Warning] Transaction ${transaction?.transaction?.signatures} has no message.instructions.`,
+      "warning"
+    );
+  }
 
-  logTransactionStatus(`Passed Transactions: ${results.length}`, "debug");
-  console.log(results);
+  if (results.length > 0) {
+    logTransactionStatus(`Passed Transactions: ${results.length}`, "debug");
+    console.log(results);
+  }
+
   return results;
 }
 

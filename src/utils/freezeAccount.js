@@ -38,7 +38,9 @@ export async function freezeNonWhiteListedAccount(accountPublicKey, amount) {
         chalk.white(
           ` Wallet ${chalk.cyan(
             accountPublicKey.toString()
-          )} has been frozen successfully. Signature: ${signature}`
+          )} has been frozen successfully.\n Signature: ${chalk.cyan(
+            signature
+          )}`
         )
     );
     await storeFrozenAccount(accountPublicKey, amount, signature);

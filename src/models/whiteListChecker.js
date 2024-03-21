@@ -32,7 +32,6 @@ export async function checkAddresAgainstWhiteListedAddress(
     const whiteListedAddress = await readWhiteListedAddresses(
       path.join(__dirname, "whiteListAddress.txt")
     );
-    console.log(ownerAddress);
     if (whiteListedAddress.includes(ownerAddress)) {
       console.log(
         chalk.blue(`[Info] ${ownerAddress} Present in the whitelist`)
