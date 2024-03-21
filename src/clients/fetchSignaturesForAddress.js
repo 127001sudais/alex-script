@@ -7,7 +7,6 @@ let connection = new Connection(RPC_URL, "confirmed");
 
 export async function fetchSignaturesForAddress(account_address, limit) {
   try {
-    // Define the options for fetching signatures, including the limit of signatures to retrieve.
     const options = {
       limit: limit,
     };

@@ -52,6 +52,3 @@ export async function fetchParsedTransactions(transactionSignature) {
     throw new Error("Failed to fetch parsed transaction details.");
   }
 }
-
-// 94ynwucj7htXFG2JWedUMjcPBuuaoerki3JoHCDwxENY
-// H24RXEMJ6TK61NrbMZoNxMj2u3yaxJcVMSM65AqfUj9o

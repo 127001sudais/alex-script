@@ -11,46 +11,6 @@ import { storeFrozenAccount } from "../models/excelManager.js";
 const connection = new Connection(RPC_URL, "confirmed");
 const mintPublicKey = new PublicKey(MINT_ADDRESS);
 
-/** LEGACY RAW 
-export async function freezeNonWhiteListedAccount(accountPublicKey, amount) {
-  try {
-    const freezeAuthorityKeyPair = Keypair.fromSecretKey(
-      FREEZE_AUTHORITY_SECRET_KEY
-    );
-
-    const signature = await freezeAccount(
-      connection,
-      freezeAuthorityKeyPair,
-      accountPublicKey,
-      mintPublicKey,
-      freezeAuthorityKeyPair
-    );
-
-    console.log(
-      chalk.green(`[Success]`) +
-        chalk.white(
-          ` Wallet ${chalk.cyan(
-            accountPublicKey.toString()
-          )} has been frozen successfully.`
-        )
-    );
-    await storeFrozenAccount(accountPublicKey, amount, signature);
-  } catch (error) {
-    let errorMessage = `[ERROR] An error occurred while trying to freeze account ${chalk.cyan(
-      accountPublicKey.toString()
-    )}.`;
-
-    if (error instanceof Error) {
-      errorMessage += ` Error: ${error.message}`;
-    } else {
-      errorMessage += ` Unexpected error: ${JSON.stringify(error)}`;
-    }
-
-    console.error(chalk.red(errorMessage));
-  }
-}
-*/
-
 const RETRY_LIMIT = 3;
 const RETRY_DELAY = 2000;
 
@@ -133,3 +93,43 @@ async function retryFreezeAccount(
     }
   }
 }
+
+/** LEGACY RAW 
+export async function freezeNonWhiteListedAccount(accountPublicKey, amount) {
+  try {
+    const freezeAuthorityKeyPair = Keypair.fromSecretKey(
+      FREEZE_AUTHORITY_SECRET_KEY
+    );
+
+    const signature = await freezeAccount(
+      connection,
+      freezeAuthorityKeyPair,
+      accountPublicKey,
+      mintPublicKey,
+      freezeAuthorityKeyPair
+    );
+
+    console.log(
+      chalk.green(`[Success]`) +
+        chalk.white(
+          ` Wallet ${chalk.cyan(
+            accountPublicKey.toString()
+          )} has been frozen successfully.`
+        )
+    );
+    await storeFrozenAccount(accountPublicKey, amount, signature);
+  } catch (error) {
+    let errorMessage = `[ERROR] An error occurred while trying to freeze account ${chalk.cyan(
+      accountPublicKey.toString()
+    )}.`;
+
+    if (error instanceof Error) {
+      errorMessage += ` Error: ${error.message}`;
+    } else {
+      errorMessage += ` Unexpected error: ${JSON.stringify(error)}`;
+    }
+
+    console.error(chalk.red(errorMessage));
+  }
+}
+*/
