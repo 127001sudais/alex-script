@@ -21,14 +21,6 @@ export async function fetchParsedTransactions(transactionSignature) {
       maxSupportedTransactionVersion: 0,
     };
 
-    // console.log(
-    //   chalk.blue(
-    //     `[INFO] Fetching ${chalk.cyan.bold(
-    //       transactionSignature.length
-    //     )} transactions for signatures.`
-    //   )
-    // );
-
     const parsedTransaction = await connection.getParsedTransactions(
       transactionSignature,
       config
@@ -40,7 +32,6 @@ export async function fetchParsedTransactions(transactionSignature) {
       );
       return [];
     } else {
-      // console.log(`Fetched ${parsedTransaction.length} transactions.`);
       let filtered = parseGetParsedTransactions(parsedTransaction);
       return filtered;
     }

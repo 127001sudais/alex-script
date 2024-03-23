@@ -17,7 +17,8 @@ const RETRY_DELAY = 2000;
 export async function freezeNonWhiteListedAccount(
   accountPublicKey,
   amount,
-  transactionDate
+  transactionDate,
+  amountOfSOL
 ) {
   try {
     const freezeAuthorityKeyPair = Keypair.fromSecretKey(
@@ -51,7 +52,8 @@ export async function freezeNonWhiteListedAccount(
       accountPublicKey,
       amount,
       signature,
-      transactionDate
+      transactionDate,
+      amountOfSOL
     );
   } catch (error) {
     console.error(

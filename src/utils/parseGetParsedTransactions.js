@@ -41,7 +41,10 @@ function processInstruction(instruction, transactionSignatures, blockTime) {
       break;
 
     case "transferChecked":
-      if (parsedInfo.info) {
+      if (
+        parsedInfo.info &&
+        instruction.parsed.info.source === TOKEN_ACCOUNT_ADDRESS
+      ) {
         amount = parsedInfo.info.tokenAmount.amount / Math.pow(10, DECIMAL);
         const transactionDate = new Date(blockTime * 1000).toISOString();
 

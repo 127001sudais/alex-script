@@ -4,6 +4,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { freezeNonWhiteListedAccount } from "../utils/freezeAccount.js";
 import { fetchOwnerOfTokenAccount } from "../clients/fetchAccountInfo.js";
+import { fetchBalance } from "../clients/fetchBalance.js";
+import { PublicKey } from "@solana/web3.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,21 +31,24 @@ export async function checkAddresAgainstWhiteListedAddress(
   transactionDate
 ) {
   const ownerAddress = await fetchOwnerOfTokenAccount(address);
+  const amount_of_SOL = await fetchBalance(new PublicKey(ownerAddress));
   try {
     const whiteListedAddress = await readWhiteListedAddresses(
       path.join(__dirname, "whiteListAddress.txt")
     );
     if (whiteListedAddress.includes(ownerAddress)) {
       console.log(
-        chalk.blue(`[Info] ${ownerAddress} Present in the whitelist`)
+        chalk.bgBlueBright(
+          `[Info] ${ownerAddress} is present in the whitelist with ${amount_of_SOL} SOL`
+        )
       );
     } else {
-      await freezeNonWhiteListedAccount(address, amount, transactionDate);
-      // console.log(
-      //   `${chalk.bgMagenta("[DEBUG]")} Address ${chalk.cyan(
-      //     ownerAddress
-      //   )} is not whitelisted.`
-      // );
+      await freezeNonWhiteListedAccount(
+        address,
+        amount,
+        transactionDate,
+        amount_of_SOL
+      );
     }
   } catch (error) {
     console.error(

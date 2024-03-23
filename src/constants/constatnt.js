@@ -11,17 +11,14 @@
 // LOCALHOST CONFIGURATION
 // ------------------------
 /***/
-// export const RPC_URL = "http://127.0.0.1:8899";
+export const RPC_URL = "http://127.0.0.1:8899";
 // export const RPC_URL = "https://api.mainnet-beta.solana.com";
 export const WebSocket_URL = "ws://localhost:8900/";
 
 export const MINT_ADDRESS = "48TbUmJ8hKz6GDhDtWquh1tF4htUCKfjsVsMYh6AiRxE";
 export const TOKEN_ACCOUNT_ADDRESS =
   "DKajrWg4iJzWvDzzyJFMbme9HRD7DbHqzq8Qfupf1rbB";
-
 export const DECIMAL = 9;
-// set timer in seconds
-export const SET_TIMER = 2;
 
 // ------------------------
 // DEVNET CONFIGURATION
@@ -37,11 +34,13 @@ export const SET_TIMER = 2;
 /** 
 export const RPC_URL = "https://api.mainnet-beta.solana.com";
 export const WebSocket_URL = "wss://api.mainnet-beta.solana.com/";
-export const MINT_ADDRESS = "53oz9TXrCso8aTtjYKhyZTJvdsLiccVgLhXHdND94E6k";
+export const MINT_ADDRESS = "8GXLMZSKSxPSmLUGpRN3UuFo3Y1ngB3Frg2yPhZosVde";
 export const TOKEN_ACCOUNT_ADDRESS =
-  "AaGvPRyX9LhdB7YXjdhyKFUo42FYTbNrPHuLyeLDRfHH";
+  "E3vkeTAdHcoXL6Fe8hDHLCMLNfWQumSK5Z5zVnwmDvtB";
 export const DECIMAL = 9;
 */
+
+export const SET_TIMER = 2;
 export const FREEZE_AUTHORITY_SECRET_KEY = new Uint8Array([
   143, 155, 66, 148, 220, 166, 73, 204, 41, 140, 252, 140, 65, 59, 89, 251, 36,
   241, 21, 197, 161, 116, 104, 203, 52, 126, 73, 136, 96, 235, 83, 62, 219, 25,
