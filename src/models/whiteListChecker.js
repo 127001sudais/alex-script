@@ -6,6 +6,10 @@ import { freezeNonWhiteListedAccount } from "../utils/freezeAccount.js";
 import { fetchOwnerOfTokenAccount } from "../clients/fetchAccountInfo.js";
 import { fetchBalance } from "../clients/fetchBalance.js";
 import { PublicKey } from "@solana/web3.js";
+import {
+  DELAY_FREEZE_TIME_IN_MINUTES,
+  MINIMUM_SOL_BALANCE,
+} from "../constants/constatnt.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,6 +36,7 @@ export async function checkAddresAgainstWhiteListedAddress(
 ) {
   const ownerAddress = await fetchOwnerOfTokenAccount(address);
   const amount_of_SOL = await fetchBalance(new PublicKey(ownerAddress));
+
   try {
     const whiteListedAddress = await readWhiteListedAddresses(
       path.join(__dirname, "whiteListAddress.txt")
@@ -45,12 +50,32 @@ export async function checkAddresAgainstWhiteListedAddress(
         )} ${chalk.greenBright(amount_of_SOL)} ${chalk.blue(`SOL`)}`
       );
     } else {
-      await freezeNonWhiteListedAccount(
-        address,
-        amount,
-        transactionDate,
-        amount_of_SOL
-      );
+      if (amount_of_SOL < MINIMUM_SOL_BALANCE) {
+        console.log(
+          `Balance is below ${chalk.green(
+            MINIMUM_SOL_BALANCE
+          )} SOL, delaying the freeze action by ${chalk.blue(
+            (DELAY_FREEZE_TIME_IN_MINUTES * 60000) / 60000
+          )} mintutes for account ${chalk.yellow(ownerAddress)}`
+        );
+        setTimeout(() => {
+          freezeNonWhiteListedAccount(
+            address,
+            amount,
+            transactionDate,
+            amount_of_SOL,
+            ownerAddress
+          );
+        }, DELAY_FREEZE_TIME_IN_MINUTES * 60000);
+      } else {
+        await freezeNonWhiteListedAccount(
+          address,
+          amount,
+          transactionDate,
+          amount_of_SOL,
+          ownerAddress
+        );
+      }
     }
   } catch (error) {
     console.error(

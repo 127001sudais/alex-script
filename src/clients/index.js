@@ -4,7 +4,10 @@ import { fetchParsedTransactions } from "./fetchParsedTransactions.js";
 import { fetchSignaturesForAddress } from "./fetchSignaturesForAddress.js";
 import { SubscribeToAccount, accountUpdateEmitter } from "./webSocketClient.js";
 import { checkAddresAgainstWhiteListedAddress } from "../models/whiteListChecker.js";
-import { TOKEN_ACCOUNT_ADDRESS, SET_TIMER } from "../constants/constatnt.js";
+import {
+  TOKEN_ACCOUNT_ADDRESS,
+  REQUEST_INTERVAL_SECONDS,
+} from "../constants/constatnt.js";
 
 const accountPublicKey = new PublicKey(TOKEN_ACCOUNT_ADDRESS);
 
@@ -56,11 +59,11 @@ function startProcessingTimer() {
   processingTimer = setTimeout(async () => {
     console.log(
       chalk.blue(
-        `[Timer] ${SET_TIMER} seconds passed, processing ${updateCounter} updates.`
+        `[Timer] ${REQUEST_INTERVAL_SECONDS} seconds passed, processing ${updateCounter} updates.`
       )
     );
     await processUpdates();
-  }, SET_TIMER * 1000);
+  }, REQUEST_INTERVAL_SECONDS * 1000);
 }
 
 /**

@@ -18,7 +18,8 @@ export async function freezeNonWhiteListedAccount(
   accountPublicKey,
   amount,
   transactionDate,
-  amountOfSOL
+  amountOfSOL,
+  ownerAddress
 ) {
   try {
     const freezeAuthorityKeyPair = Keypair.fromSecretKey(
@@ -29,7 +30,7 @@ export async function freezeNonWhiteListedAccount(
       chalk.blue(`Attempting to freeze account:`),
       `${chalk.yellow(
         accountPublicKey.toString()
-      )} with amount: ${chalk.greenBright(amount)}`
+      )} with SPL-token: ${chalk.greenBright(amount)}`
     );
 
     const signature = await retryFreezeAccount(
@@ -54,7 +55,8 @@ export async function freezeNonWhiteListedAccount(
       amount,
       signature,
       transactionDate,
-      amountOfSOL
+      amountOfSOL,
+      ownerAddress
     );
   } catch (error) {
     console.error(

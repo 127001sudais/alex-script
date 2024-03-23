@@ -11,7 +11,8 @@ export async function storeFrozenAccount(
   amount,
   transactionSignature,
   transactionDate,
-  amountOfSOL
+  amountOfSOL,
+  ownerAddress
 ) {
   const filePath = path.join(__dirname, "frozenAccounts.xlsx");
   let workbook;
@@ -27,11 +28,12 @@ export async function storeFrozenAccount(
   if (!workbook.Sheets[sheetName]) {
     worksheet = XLSX.utils.aoa_to_sheet([
       [
-        "Address",
-        "Amount",
+        "AssociatedTokenAddress",
+        "SPL_Token",
         "TransactionSignature",
         "TransactionDate",
         "SOL_Amount",
+        "OwnerAddress",
       ],
     ]);
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
@@ -47,11 +49,12 @@ export async function storeFrozenAccount(
     worksheet,
     [
       {
-        Address: address,
-        Amount: amount,
+        AssociatedTokenAddress: address,
+        SPL_Token: amount,
         TransactionSignature: transactionSignature,
         TransactionDate: transactionDate,
         SOL_Amount: amountOfSOL,
+        OwnerAddress: ownerAddress,
       },
     ],
     { origin: -1, skipHeader: true }
@@ -65,6 +68,6 @@ export async function storeFrozenAccount(
     //   `\nTransaction Signature: ${chalk.cyanBright.bold(
     //     transactionSignature
     //   )} at ${transactionDate} with ${amountOfSOL} SOL`
-    ` Address | Amount | TransactionSignature | TransactionDate | amount-of-SOL | has been successfully stored.`
+    ` ATA | SPL-token | TXsignature | TXDate | amount-of-SOL | OwnerAddress has been successfully stored.`
   );
 }
