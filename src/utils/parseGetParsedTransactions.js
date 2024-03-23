@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { DECIMAL, TOKEN_ACCOUNT_ADDRESS } from "../constants/constatnt.js";
 
-function logTransactionStatus(message, type = "info") {
+export function logTransactionStatus(message, type = "info") {
   const color =
     {
       info: chalk.blue,
@@ -13,7 +13,7 @@ function logTransactionStatus(message, type = "info") {
   console.log(color(message));
 }
 
-function processInstruction(instruction, transactionSignatures) {
+function processInstruction(instruction, transactionSignatures, blockTime) {
   if (!instruction.parsed) {
     logTransactionStatus("[Warning] Instruction not parsed.", "warning");
     return null;
@@ -28,27 +28,33 @@ function processInstruction(instruction, transactionSignatures) {
         instruction.parsed.info.source === TOKEN_ACCOUNT_ADDRESS
       ) {
         amount = parsedInfo.info.amount / Math.pow(10, DECIMAL);
-        logTransactionStatus("[Passed] Transaction matches.", "passed");
+        const transactionDate = new Date(blockTime * 1000).toISOString();
+
         return {
           sender: parsedInfo.info.source,
           receiver: parsedInfo.info.destination,
           amount,
           transactionSignature: transactionSignatures,
+          transactionDate,
         };
       }
       break;
+
     case "transferChecked":
       if (parsedInfo.info) {
         amount = parsedInfo.info.tokenAmount.amount / Math.pow(10, DECIMAL);
-        logTransactionStatus("[Passed] TransferChecked matches.", "passed");
+        const transactionDate = new Date(blockTime * 1000).toISOString();
+
         return {
           sender: parsedInfo.info.source,
           receiver: parsedInfo.info.destination,
           amount,
           transactionSignature: transactionSignatures,
+          transactionDate,
         };
       }
       break;
+
     default:
       logTransactionStatus("[Info] Extra Transactions", "info");
       return null;
@@ -65,7 +71,8 @@ export function extractTransactions(transaction) {
       innerInstruction.instructions.forEach((instruction) => {
         const result = processInstruction(
           instruction,
-          transaction.transaction.signatures
+          transaction.transaction.signatures,
+          transaction.blockTime
         );
         if (result) results.push(result);
       });
@@ -82,7 +89,8 @@ export function extractTransactions(transaction) {
     transaction.transaction.message.instructions.forEach((instruction) => {
       const result = processInstruction(
         instruction,
-        transaction.transaction.signatures
+        transaction.transaction.signatures,
+        transaction.blockTime
       );
       if (result) results.push(result);
     });
@@ -94,7 +102,7 @@ export function extractTransactions(transaction) {
   }
 
   if (results.length > 0) {
-    logTransactionStatus(`Passed Transactions: ${results.length}`, "debug");
+    // logTransactionStatus(`Passed Transactions: ${results.length}`, "debug");
     console.log(results);
   }
 
@@ -120,7 +128,7 @@ export function parseGetParsedTransactions(transactions) {
     results = [...results, ...extractTransactions(transaction)];
   });
 
-  console.log(`Total extracted transactions: ${results.length}`);
+  // console.log(`Total extracted transactions: ${results.length}`);
   return results;
 }
 

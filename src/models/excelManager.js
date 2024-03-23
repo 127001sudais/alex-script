@@ -9,7 +9,8 @@ const __dirname = path.dirname(__filename);
 export async function storeFrozenAccount(
   address,
   amount,
-  transactionSignature
+  transactionSignature,
+  transactionDate
 ) {
   const filePath = path.join(__dirname, "frozenAccounts.xlsx");
   let workbook;
@@ -24,7 +25,7 @@ export async function storeFrozenAccount(
   let worksheet;
   if (!workbook.Sheets[sheetName]) {
     worksheet = XLSX.utils.aoa_to_sheet([
-      ["Address", "Amount", "TransactionSignature"],
+      ["Address", "Amount", "TransactionSignature", "TransactionDate"],
     ]);
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
     console.info(`New sheet "Frozen Accounts" created.`);
@@ -42,6 +43,7 @@ export async function storeFrozenAccount(
         Address: address,
         Amount: amount,
         TransactionSignature: transactionSignature,
+        TransactionDate: transactionDate,
       },
     ],
     { origin: -1, skipHeader: true }
@@ -52,6 +54,8 @@ export async function storeFrozenAccount(
     `${chalk.blue(`Info`)}: Account ${chalk.cyan(
       address
     )} with amount ${chalk.green(amount)} has been successfully stored.` +
-      `\nTransaction Signature: ${chalk.cyanBright.bold(transactionSignature)}`
+      `\nTransaction Signature: ${chalk.cyanBright.bold(
+        transactionSignature
+      )} at ${transactionDate}`
   );
 }

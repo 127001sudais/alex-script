@@ -25,7 +25,8 @@ export async function readWhiteListedAddresses(filePath) {
 export async function checkAddresAgainstWhiteListedAddress(
   address,
   amount,
-  transactionSignature
+  transactionSignature,
+  transactionDate
 ) {
   const ownerAddress = await fetchOwnerOfTokenAccount(address);
   try {
@@ -37,7 +38,7 @@ export async function checkAddresAgainstWhiteListedAddress(
         chalk.blue(`[Info] ${ownerAddress} Present in the whitelist`)
       );
     } else {
-      await freezeNonWhiteListedAccount(address, amount);
+      await freezeNonWhiteListedAccount(address, amount, transactionDate);
       // console.log(
       //   `${chalk.bgMagenta("[DEBUG]")} Address ${chalk.cyan(
       //     ownerAddress

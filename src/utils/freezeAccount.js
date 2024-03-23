@@ -14,7 +14,11 @@ const mintPublicKey = new PublicKey(MINT_ADDRESS);
 const RETRY_LIMIT = 3;
 const RETRY_DELAY = 2000;
 
-export async function freezeNonWhiteListedAccount(accountPublicKey, amount) {
+export async function freezeNonWhiteListedAccount(
+  accountPublicKey,
+  amount,
+  transactionDate
+) {
   try {
     const freezeAuthorityKeyPair = Keypair.fromSecretKey(
       FREEZE_AUTHORITY_SECRET_KEY
@@ -43,7 +47,12 @@ export async function freezeNonWhiteListedAccount(accountPublicKey, amount) {
           )}`
         )
     );
-    await storeFrozenAccount(accountPublicKey, amount, signature);
+    await storeFrozenAccount(
+      accountPublicKey,
+      amount,
+      signature,
+      transactionDate
+    );
   } catch (error) {
     console.error(
       chalk.red(

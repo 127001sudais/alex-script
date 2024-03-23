@@ -4,7 +4,7 @@ import { fetchParsedTransactions } from "./fetchParsedTransactions.js";
 import { fetchSignaturesForAddress } from "./fetchSignaturesForAddress.js";
 import { SubscribeToAccount, accountUpdateEmitter } from "./webSocketClient.js";
 import { checkAddresAgainstWhiteListedAddress } from "../models/whiteListChecker.js";
-import { TOKEN_ACCOUNT_ADDRESS } from "../constants/constatnt.js";
+import { TOKEN_ACCOUNT_ADDRESS, SET_TIMER } from "../constants/constatnt.js";
 
 /**
 let updateCounter = 0;
@@ -149,11 +149,11 @@ function startProcessingTimer() {
   processingTimer = setTimeout(async () => {
     console.log(
       chalk.yellow(
-        `[Timer] 5 seconds passed, processing ${updateCounter} updates.`
+        `[Timer] ${SET_TIMER} seconds passed, processing ${updateCounter} updates.`
       )
     );
     await processUpdates();
-  }, 5000); // 5 seconds
+  }, SET_TIMER * 1000);
 }
 
 /**
@@ -209,7 +209,8 @@ async function processTransaction(transaction) {
   await checkAddresAgainstWhiteListedAddress(
     transaction.receiver,
     transaction.amount,
-    transaction.transactionSignature
+    transaction.transactionSignature,
+    transaction.transactionDate
   );
   // await checkAddresAgainstWhiteListedAddress(
   //   transaction.sender,
