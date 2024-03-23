@@ -26,9 +26,10 @@ export async function freezeNonWhiteListedAccount(
     );
 
     console.log(
-      chalk.blue(
-        `Attempting to freeze account: ${accountPublicKey.toString()} with amount: ${amount}`
-      )
+      chalk.blue(`Attempting to freeze account:`),
+      `${chalk.yellow(
+        accountPublicKey.toString()
+      )} with amount: ${chalk.greenBright(amount)}`
     );
 
     const signature = await retryFreezeAccount(
@@ -41,10 +42,10 @@ export async function freezeNonWhiteListedAccount(
     console.log(
       chalk.green(`[Success]`) +
         chalk.white(
-          ` Wallet ${chalk.cyan(
+          ` Wallet ${chalk.yellow(
             accountPublicKey.toString()
-          )} has been frozen successfully.\n Signature: ${chalk.cyan(
-            signature
+          )} has been frozen successfully.\n ${chalk.cyan(
+            `URL: https://solscan.io/tx/` + signature
           )}`
         )
     );
@@ -84,7 +85,7 @@ async function retryFreezeAccount(
   } catch (error) {
     if (attempt < RETRY_LIMIT) {
       console.log(
-        chalk.yellow(
+        chalk.red(
           `Attempt ${
             attempt + 1
           } failed for freezing account ${accountPublicKey.toString()}. Retrying in ${RETRY_DELAY}ms...`

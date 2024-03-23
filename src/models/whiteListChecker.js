@@ -38,9 +38,11 @@ export async function checkAddresAgainstWhiteListedAddress(
     );
     if (whiteListedAddress.includes(ownerAddress)) {
       console.log(
-        chalk.bgBlueBright(
-          `[Info] ${ownerAddress} is present in the whitelist with ${amount_of_SOL} SOL`
-        )
+        `${chalk.blue(`[Info] Account`)}  ${chalk.yellow(
+          ownerAddress
+        )} ${chalk.blue(
+          `is present in the whitelist with`
+        )} ${chalk.greenBright(amount_of_SOL)} ${chalk.blue(`SOL`)}`
       );
     } else {
       await freezeNonWhiteListedAccount(

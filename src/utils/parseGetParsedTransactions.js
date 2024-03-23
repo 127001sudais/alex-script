@@ -104,10 +104,10 @@ export function extractTransactions(transaction) {
     );
   }
 
-  if (results.length > 0) {
-    // logTransactionStatus(`Passed Transactions: ${results.length}`, "debug");
-    console.log(results);
-  }
+  // if (results.length > 0) {
+  // logTransactionStatus(`Passed Transactions: ${results.length}`, "debug");
+  // console.log(results);
+  // }
 
   return results;
 }
@@ -123,9 +123,9 @@ export function parseGetParsedTransactions(transactions) {
       );
       return;
     }
-    logTransactionStatus(
-      `Processing transaction: ${transaction.transaction.signatures}`,
-      "info"
+    console.log(
+      chalk.blue(`[Info] Processing transaction:`),
+      `${chalk.yellow(transaction.transaction.signatures)}`
     );
 
     results = [...results, ...extractTransactions(transaction)];

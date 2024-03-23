@@ -55,7 +55,7 @@ async function handleAccountUpdate() {
 function startProcessingTimer() {
   processingTimer = setTimeout(async () => {
     console.log(
-      chalk.yellow(
+      chalk.blue(
         `[Timer] ${SET_TIMER} seconds passed, processing ${updateCounter} updates.`
       )
     );

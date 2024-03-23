@@ -59,11 +59,12 @@ export async function storeFrozenAccount(
 
   XLSX.writeFile(workbook, filePath);
   console.info(
-    `${chalk.blue(`Info`)}: Account ${chalk.cyan(
-      address
-    )} with amount ${chalk.green(amount)} has been successfully stored.` +
-      `\nTransaction Signature: ${chalk.cyanBright.bold(
-        transactionSignature
-      )} at ${transactionDate} with ${amountOfSOL} SOL`
+    // `${chalk.blue(`[Info]`)}: Account ${chalk.cyan(
+    //   address
+    // )} with amount ${chalk.green(amount)} has been successfully stored.` +
+    //   `\nTransaction Signature: ${chalk.cyanBright.bold(
+    //     transactionSignature
+    //   )} at ${transactionDate} with ${amountOfSOL} SOL`
+    ` Address | Amount | TransactionSignature | TransactionDate | amount-of-SOL | has been successfully stored.`
   );
 }
