@@ -14,7 +14,7 @@
 
 ### commands
 
-- spl-token transfer 48TbUmJ8hKz6GDhDtWquh1tF4htUCKfjsVsMYh6AiRxE 0.5 92BZ3vW7Lwx5D2HvoHktzczCdxT1C38cZJUsRZdHyHA9 --allow-unfunded-recipient --fund-recipient
+- spl-token transfer 2DaHnVwXiHkA2UKMDU3fHAfT4Qb32xWR26nVXYjeEUWH 0.5 92BZ3vW7Lwx5D2HvoHktzczCdxT1C38cZJUsRZdHyHA9 --allow-unfunded-recipient --fund-recipient
 
 - spl-token transfer 48TbUmJ8hKz6GDhDtWquh1tF4htUCKfjsVsMYh6AiRxE 0.90 E4q6drgsbnMcywX6Rno6mdWmtezDjvXcNB7FTV77Qrdi --allow-unfunded-recipient --fund-recipient
 
